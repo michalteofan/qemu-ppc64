@@ -1,0 +1,8 @@
+[options]
+virtfs = enabled
+docs = disabled
+prefix = /usr/local
+
+[properties]
+native_file = ['/home/cloud-user/qemu-8.1.2/build/config-meson.cross']
+
