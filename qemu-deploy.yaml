@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qemu-ppc64
+  labels:
+    app: qemu-ppc64
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qemu-ppc64
+  template:
+    metadata:
+      labels:
+        app: qemu-ppc64
+    spec:
+      containers:
+      - args:
+        - infinity
+        command:
+        - sleep
+        image: registry.redhat.io/rhel8/s2i-base@sha256:a9db9216ef7c8a8b392d671a1e29c60ee6144334f672f941e9cf341710e31441
+        imagePullPolicy: IfNotPresent
+        name: qemu-ppc64
+        ports:
+        - containerPort: 2222
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /mnt/qemu
+          name: qemu-bin
+        - mountPath: /mnt/media
+          name: qemu-media
+      securityContext: {}
+      serviceAccount: ubuntu-sa
+      serviceAccountName: ubuntu-sa
+      volumes:
+      - name: qemu-bin
+        persistentVolumeClaim:
+          claimName: qemu-bin
+      - name: qemu-media
+        persistentVolumeClaim:
+          claimName: qemu-media
+
+
+
